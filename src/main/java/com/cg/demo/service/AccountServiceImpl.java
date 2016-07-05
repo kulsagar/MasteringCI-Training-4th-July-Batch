@@ -34,18 +34,41 @@ public class AccountServiceImpl implements AccountService {
 
 	public Account showBalance(int accountNumber) throws InvalidAccountException {
 		// TODO Auto-generated method stub
-		return null;
+		Account a = repo.findById(accountNumber);
+		if(a==null){
+			throw new InvalidAccountException();
+		}
+		return a;
 	}
 
 	public Account withdraw(int accountNumber, double amount)
 			throws InvalidAccountException, InsufficientBalanceException {
-		// TODO Auto-generated method stub
-		return null;
+		if(amount <=0){
+			throw new IllegalArgumentException();
+		}
+		Account a = repo.findById(accountNumber);
+		if(a==null){
+			throw new InvalidAccountException();
+		}
+		if(a.getBalance()<amount){
+			throw new InsufficientBalanceException();
+		}
+		a.setBalance(a.getBalance()-amount);
+		return a;
 	}
 
 	public Account deposit(int accountNumber, double amount) throws InvalidAccountException {
 		// TODO Auto-generated method stub
-		return null;
+		if(amount<=0){
+			throw new IllegalArgumentException();
+		}
+		Account a = repo.findById(accountNumber);
+		if(a==null){
+			throw new InvalidAccountException();
+		}
+		a.setBalance(a.getBalance()+amount);
+		return a;
+
 	}
 
 }
